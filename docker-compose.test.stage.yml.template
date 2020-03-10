@@ -1,0 +1,62 @@
+---
+
+version: '3.4'
+services:
+  mail:
+    image: djfarrelly/maildev
+    ports:
+      - 1080:80
+
+  postgres:
+    image: postgres:11
+    env_file: .env
+    ports:
+      - 5432:5432
+    volumes:
+      - ../volumes/pgdata:/var/lib/postgresql/data/pgdata
+
+  web:
+    build:
+      context: ./service/
+    depends_on:
+      - redis
+      - postgres
+    env_file:
+      - .env
+    ports:
+      - "${DOCKER_WEB_PORT:-127.0.0.1:8000}:8000"
+    restart: "${DOCKER_RESTART_POLICY:-unless-stopped}"
+    command: bash start.sh
+    stop_grace_period: "${DOCKER_STOP_GRACE_PERIOD:-3s}"
+    volumes:
+      - "${DOCKER_WEB_VOLUME:-../volumes/web:/www}"
+
+  worker:
+    build:
+      context: ./service/
+    command: celery worker -A core.tasks
+    depends_on:
+      - redis
+    env_file:
+      - .env
+    restart: "${DOCKER_RESTART_POLICY:-unless-stopped}"
+    stop_grace_period: "${DOCKER_STOP_GRACE_PERIOD:-3s}"
+    volumes:
+      - "${DOCKER_WEB_VOLUME:-../volumes/worker:/www}"
+
+  redis:
+    image: redis:5.0.7
+    env_file: .env
+    command: "redis-server --appendonly yes --requirepass 1234567Q"
+
+  nginx:
+    build: ./nginx
+    env_file: .env
+    depends_on:
+      - web
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx/sites-enabled:/etc/nginx/sites-enabled
+      - ./service/static/:/www/static
+      - ./service/media/:/www/media
