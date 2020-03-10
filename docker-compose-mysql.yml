@@ -1,0 +1,28 @@
+---
+
+version: '3.3'
+services:
+  mysql:
+    image: mysql:8.0.19
+    env_file: .env
+    ports:
+            - 3306:3306
+    expose:
+      - 3306
+    command: mysqld --default-authentication-plugin=mysql_native_password
+    volumes:
+      - ../volumes/mysql:/var/lib/mysql
+
+#  app:
+#    build: ./service/
+#    depends_on:
+#      - storage
+#    env_file: .env
+#    ports:
+#      - '8000:8000'
+#    command: bash start.sh
+#    volumes:
+#      - ./service/:/app
+
+volumes:
+  reminder-test-db:
