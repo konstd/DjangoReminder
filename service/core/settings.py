@@ -12,9 +12,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 
-
-def str2bool(s):
-    return s in ['true', 'True', 'yes', 'on', '1']
+from core.utils import str2bool
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
