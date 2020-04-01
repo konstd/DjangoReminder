@@ -50,5 +50,5 @@ def delete_reminder(sender, instance, **kwargs) -> None:
     :param kwargs:
     :return: None
     """
-    if instance.task_id:
-        AsyncResult(instance.task_id).revoke()
+    if instance.celery_task_id:
+        AsyncResult(instance.celery_task_id).revoke()

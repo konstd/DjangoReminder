@@ -2,6 +2,23 @@
 
 #### This project is for educational purposes only.
 
+Django reminder service includes such API functionality as:
+- user registration
+- user authentication
+- user profile
+- user can create, update and delete reminders
+- async celery task will send notification to user when time will come over email
+- user can attach another users to reminder
+- user can watch his reminders where he is the author and also where he participates
+- user can mark reminder as completed
+- Reminder contain these fields: title, body, location, participants, creation date, target date
+
+Main technical stack:
+- Python, Django, DRF, Django Signals
+- PostgreSQL database
+- Docker
+- Celery
+
 ---
 
 ##### To start the project you have to follow these steps:
@@ -39,6 +56,7 @@ To check all files added to stage:
 
 ### TODO:
 
+- Celery worker is not working in dev mode for now. Need to fix it and update README
 - Improve coverage
 - Add Python type checking support
 - Add code documentation

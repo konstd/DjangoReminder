@@ -9,3 +9,4 @@ reports/
 !logs/.gitkeep
 public
 */static/*
+*.log*
