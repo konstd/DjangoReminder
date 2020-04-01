@@ -5,4 +5,4 @@ class ReminderConfig(AppConfig):
     name = 'reminder'
 
     def ready(self):
-        import reminder.signals.reminder  # noqa
+        from reminder.signals import reminder  # noqa

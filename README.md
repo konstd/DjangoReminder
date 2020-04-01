@@ -14,8 +14,8 @@ Django reminder service includes such API functionality as:
 - Reminder contain these fields: title, body, location, participants, creation date, target date
 
 Main technical stack:
-- Python, Django, DRF, Django Signals
-- PostgreSQL database
+- Python 3.8, Django 3, DRF, Django Signals
+- PostgreSQL 11
 - Docker
 - Celery
 
@@ -23,15 +23,15 @@ Main technical stack:
 
 ##### To start the project you have to follow these steps:
 
-1. `cp envs/.env.dev.template .env` - create environment config file for development purposes. Change `dev` to `test` or `stage` if you needed
+1. `docker-compose up -f docker-compose-dev.yml` - start the dev project environment
 
-2. `cp docker_composes/docker-compose.dev.yml.template docker-compose.yml` - create docker-compose config file. Change `dev` to `test.stage` if needed
+    1.1. Install `virtualenv` for development environment and activate it
 
-3. `docker-compose up` - start the project environment (you can always use `-f` key to load another docker-compose.yml file)
+    1.2. Use `manage.py runserver` - to start development mode server on your local machine
 
-    3.1. `manage.py runserver` - to start development mode server on your local machine
+2. `docker-compose up -f docker-compose-stage.yml` - start stage project environment with internal docker server (django tests + coverage)
 
-4. Go to http://127.0.0.1:8000/api/docs/ to see API docs after project starts or go to http://127.0.0.1:8000/admin/ to see Django Admin panel. Admin credentials: 
+3. Go to http://127.0.0.1:8000/api/docs/ to see API docs after project starts or go to http://127.0.0.1:8000/admin/ to see Django Admin panel. Admin credentials: 
 ```
 username: admin
 email: admin@example.com
@@ -56,7 +56,7 @@ To check all files added to stage:
 
 ### TODO:
 
-- Celery worker is not working in dev mode for now. Need to fix it and update README
+- Celery worker is not working as expected in dev mode for now. Need to fix it
 - Improve coverage
 - Add Python type checking support
 - Add code documentation

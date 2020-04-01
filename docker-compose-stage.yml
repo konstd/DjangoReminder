@@ -9,7 +9,7 @@ services:
 
   postgres:
     image: postgres:11
-    env_file: .env
+    env_file: .env.stage
     ports:
       - 5432:5432
     volumes:
@@ -22,41 +22,39 @@ services:
       - redis
       - postgres
     env_file:
-      - .env
+      - .env.stage
     ports:
       - "${DOCKER_WEB_PORT:-127.0.0.1:8000}:8000"
     restart: "${DOCKER_RESTART_POLICY:-unless-stopped}"
     command: bash start.sh
     stop_grace_period: "${DOCKER_STOP_GRACE_PERIOD:-3s}"
-    volumes:
-      - "${DOCKER_WEB_VOLUME:-../volumes/web:/www}"
 
   worker:
     build:
       context: ./service/
-    command: celery worker -A core.tasks
+    command: celery -A core worker -l info
     depends_on:
+      - web
       - redis
     env_file:
-      - .env
+      - .env.stage
     restart: "${DOCKER_RESTART_POLICY:-unless-stopped}"
     stop_grace_period: "${DOCKER_STOP_GRACE_PERIOD:-3s}"
-    volumes:
-      - "${DOCKER_WEB_VOLUME:-../volumes/worker:/www}"
 
   redis:
-    image: redis:5.0.7
-    env_file: .env
+    image: redis:5.0.8-alpine
+    env_file: .env.stage
     command: "redis-server --appendonly yes --requirepass 1234567Q"
 
   nginx:
     build: ./nginx
-    env_file: .env
+    env_file: .env.stage
     depends_on:
       - web
     ports:
       - 80:80
     volumes:
       - ./nginx/sites-enabled:/etc/nginx/sites-enabled
-      - ./service/static/:/www/static
-      - ./service/media/:/www/media
+      - ./service/static/:/app/static
+      - ./service/media/:/app/media
+      - ./service/logs/:/app/logs

@@ -1,10 +1,11 @@
-FROM python:3.8.2-alpine3.11
+FROM python:3.8.2-buster
 ENV PYTHONUNBUFFERED 1
 
 RUN mkdir -p /app \
-    && mkdir -p /app/storage/static \
-    && mkdir -p /app/storage/media \
-    && mkdir -p /app/logs
+    && mkdir -p /app/service/static \
+    && mkdir -p /app/service/media \
+    && mkdir -p /app/service/logs \
+    && mkdir -p /app/service/reports
 
 WORKDIR /app
 

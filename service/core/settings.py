@@ -232,7 +232,7 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 CELERY_BROKER_URL = 'redis://:{}@{}:{}/{}'.format(
     os.getenv('REDIS_PASSWORD', '1234567Q'),
-    os.getenv('REDIS_HOST', 'localhost'),
+    os.getenv('REDIS_HOST', 'redis'),
     os.getenv('REDIS_PORT', '6379'),
     os.getenv('REDIS_DB', '0'),
 )

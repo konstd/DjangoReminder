@@ -20,7 +20,8 @@ if [ $PYTHON_DEBUG = "true" ]; then
     /usr/sbin/sshd -D
 else
     if [ $DJANGO_RUN_TESTS = "true" ]; then
-      python manage.py test
+      echo "[START] launch coverage reporting tool"
+      coverage run --source='.' manage.py test
       coverage report -m --skip-covered
       coverage xml -i -o reports/coverage.xml
       sed -i 's_/app_src_g' /app/reports/coverage.xml
@@ -28,8 +29,6 @@ else
     fi
 
     if [ $DJANGO_DEBUG = "true" ]; then
-        echo "[START] launch sshd"
-        /usr/sbin/sshd
         echo "[START] launch app in debug mode"
         python manage.py runserver 0.0.0.0:8000
     else
