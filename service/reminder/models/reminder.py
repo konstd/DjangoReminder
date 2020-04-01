@@ -1,7 +1,5 @@
 import uuid
 
-from celery.result import AsyncResult
-from core.tasks import send_email
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -63,24 +61,5 @@ class Reminder(models.Model):
     def __str__(self):
         return f"{self.owner.email} {self.title}"
 
-    def save(self, **kwargs):
-        super().save(**kwargs)
-
-        if self.celery_task_id:
-            AsyncResult(self.celery_task_id).revoke()
-
-        task_id = send_email.apply_async(
-            (
-                self.id,
-            ),
-            eta=self.target_date,
-        ).id
-
-        self.celery_task_id = task_id
-        super().save(**kwargs)
-
     class Meta:
         app_label = 'reminder'
-        ordering = (
-            '-pk',
-        )

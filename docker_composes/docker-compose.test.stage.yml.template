@@ -3,7 +3,7 @@
 version: '3.4'
 services:
   mail:
-    image: djfarrelly/maildev
+    image: djfarrelly/maildev:1.1.0
     ports:
       - 1080:80
 

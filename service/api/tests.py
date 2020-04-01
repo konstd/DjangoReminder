@@ -97,7 +97,7 @@ class TestDRFAuth(TestCase):
              'last_name': ''
         })
 
-    @skip('Not working for now')
+    @skip('Need to use CELERY_ALWAYS_EAGER param')
     def test_create_reminder(self):
         credentials = {
             'username': 'user2',
