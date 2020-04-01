@@ -1,11 +1,12 @@
+from datetime import timedelta
 from unittest import skip
 
+from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils import timezone
 from rest_framework.authtoken.models import Token
-from rest_framework.test import APIClient
 
-from django.contrib.auth.models import User
+from rest_framework.test import APIClient
 
 
 ADMIN_USERNAME = 'admin'
@@ -97,8 +98,8 @@ class TestDRFAuth(TestCase):
              'last_name': ''
         })
 
-    @skip('Not working for now')
-    def test_create_reminder(self):
+    @skip('Need to fix CELERY_ALWAYS_EAGER functionality')
+    def test_create_reminder(self, send_email_mock):
         credentials = {
             'username': 'user2',
             'password': '1q2w3e!Q@W#E',
@@ -114,6 +115,6 @@ class TestDRFAuth(TestCase):
             'title': 'title',
             'body': 'body',
             'location': 'location',
-            'target_date': timezone.now(),
+            'target_date': timezone.now() + timedelta(days=1),
             'participants': [user.id],
         })

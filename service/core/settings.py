@@ -12,9 +12,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 
-
-def str2bool(s):
-    return s in ['true', 'True', 'yes', 'on', '1']
+from core.utils import str2bool
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -234,7 +232,7 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 CELERY_BROKER_URL = 'redis://:{}@{}:{}/{}'.format(
     os.getenv('REDIS_PASSWORD', '1234567Q'),
-    os.getenv('REDIS_HOST', 'localhost'),
+    os.getenv('REDIS_HOST', 'redis'),
     os.getenv('REDIS_PORT', '6379'),
     os.getenv('REDIS_DB', '0'),
 )

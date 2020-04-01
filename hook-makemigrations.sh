@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# not working for now, need additional configuration, disabled in pre-commit config
+
 cd service/
 
 if [ -z "$VIRTUAL_ENV" ]; then

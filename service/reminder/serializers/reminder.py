@@ -35,7 +35,7 @@ class ReminderSerializer(serializers.ModelSerializer):
             }
         }
 
-    def validate_date(self, date):
+    def validate_target_date(self, date):
         now = datetime.now(tz=timezone.utc)
         if now <= date:
             return date

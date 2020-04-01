@@ -4,13 +4,14 @@ from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 
 
-class AccountSerializer(serializers.ModelSerializer):
+class AccountCreateSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = User
         fields = (
             'username',
-            'password',
             'email',
+            'password',
             'first_name',
             'last_name',
         )
@@ -19,7 +20,7 @@ class AccountSerializer(serializers.ModelSerializer):
                 'required': True,
             },
             'password': {
-                'write_only': True
+                'write_only': True,
             }
         }
 
@@ -33,3 +34,15 @@ class AccountSerializer(serializers.ModelSerializer):
             return password
 
         return make_password(password)
+
+
+class AccountSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = (
+            'username',
+            'email',
+            'first_name',
+            'last_name',
+        )
