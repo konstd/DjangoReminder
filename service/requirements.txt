@@ -2,7 +2,7 @@ amqp==2.5.2
 appdirs==1.4.3
 asgiref==3.2.7
 billiard==3.6.3.0
-celery==4.4.1
+celery==5.2.2
 certifi==2019.11.28
 cfgv==3.1.0
 chardet==3.0.4
